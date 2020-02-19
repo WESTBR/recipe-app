@@ -4,13 +4,16 @@ import guru.framework.recipeapp.domain.*;
 import guru.framework.recipeapp.repositories.CategoryRepository;
 import guru.framework.recipeapp.repositories.RecipeRepository;
 import guru.framework.recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+@Slf4j
 @Component
 public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -25,7 +28,9 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+            log.debug("Start saving data in the in memory database");
             recipeRepository.saveAll( getRecipes() );
     }
 
